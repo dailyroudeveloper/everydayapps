@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dailyrou Habit Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .habit-form {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .habit {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="checkbox"] {
+      transform: scale(1.5);
+      margin-right: 10px;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .submit-btn:hover {
+      background-color: #45a049;
+    }
+    .quote {
+      text-align: center;
+      font-style: italic;
+      margin-top: 20px;
+    }
+    @media (max-width: 600px) {
+      .habit-form {
+        padding: 15px;
+      }
+      .submit-btn {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Dailyrou Habit Tracker</h1>
+  <div class="habit-form">
+    <form id="habitForm">
+      <div class="habit">
+        <label><input type="checkbox" id="sport"> Спорт (упражнения, движение)</label>
+      </div>
+      <div class="habit">
+        <label><input type="checkbox" id="sleep"> Сон 7+ часов</label>
+      </div>
+      <div class="habit">
+        <label><input type="checkbox" id="nutrition"> Здоровое питание</label>
+      </div>
+      <div class="habit">
+        <label><input type="checkbox" id="digitalNight"> Цифровая ночь (нет YouTube и т.п. перед сном)</label>
+      </div>
+      <div class="habit">
+        <label><input type="checkbox" id="cybersecurity"> Кибербез. или крипто-обучение</label>
+      </div>
+      <div class="habit">
+        <label><input type="checkbox" id="crystalBreeze"> Работа над Crystal Breeze</label>
+      </div>
+      <div class="habit">
+        <label><input type="checkbox" id="study"> Учёба (усердно, особенно математика)</label>
+      </div>
+      <button class="submit-btn" type="button" onclick="saveData()">Сохранить на сегодня</button>
+    </form>
+    <div class="quote">
+      "Ты не проиграл, пока сам не решил, что проиграл."
+    </div>
+  </div>
+
+  <script>
+    function getTodayDate() {
+      const today = new Date();
+      return today.toISOString().split('T')[0];  // YYYY-MM-DD формат
+    }
+
+    function saveData() {
+      const habitData = {
+        sport: document.getElementById('sport').checked,
+        sleep: document.getElementById('sleep').checked,
+        nutrition: document.getElementById('nutrition').checked,
+        digitalNight: document.getElementById('digitalNight').checked,
+        cybersecurity: document.getElementById('cybersecurity').checked,
+        crystalBreeze: document.getElementById('crystalBreeze').checked,
+        study: document.getElementById('study').checked
+      };
+
+      const todayDate = getTodayDate();
+      localStorage.setItem(todayDate, JSON.stringify(habitData));
+
+      alert('Данные сохранены на ' + todayDate);
+    }
+
+    function loadData() {
+      const todayDate = getTodayDate();
+      const savedData = localStorage.getItem(todayDate);
+      
+      if (savedData) {
+        const habitData = JSON.parse(savedData);
+        document.getElementById('sport').checked = habitData.sport;
+        document.getElementById('sleep').checked = habitData.sleep;
+        document.getElementById('nutrition').checked = habitData.nutrition;
+        document.getElementById('digitalNight').checked = habitData.digitalNight;
+        document.getElementById('cybersecurity').checked = habitData.cybersecurity;
+        document.getElementById('crystalBreeze').checked = habitData.crystalBreeze;
+        document.getElementById('study').checked = habitData.study;
+      } else {
+        alert('Сегодняшние данные ещё не сохранены.');
+      }
+    }
+
+    window.onload = loadData;
+  </script>
+</body>
+</html>
